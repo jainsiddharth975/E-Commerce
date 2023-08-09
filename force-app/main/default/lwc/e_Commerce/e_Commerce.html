@@ -1,0 +1,122 @@
+<template>
+    <div class="container">
+  
+      <!-- ORDER DETAILS PAGE LAYOUT AND GO TO NEXT PAGE BY BUTTON CLICK-->
+  
+  
+      <lightning-card if:true={showOrderCard}>
+        <div class="title">Order Details</div>
+        <lightning-record-edit-form object-api-name="Order">
+          <lightning-messages></lightning-messages>
+  
+          <lightning-layout multiple-rows>
+  
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6">
+              <lightning-input-field field-name="AccountId" onchange={handleChange}></lightning-input-field>
+              <lightning-input-field field-name="EffectiveDate" onchange={handleChange}></lightning-input-field>
+              <div class="slds-form-element__help slds-p-bottom_xx-small slds-text-color_error">{dateError}</div>
+              <lightning-input-field field-name="ContractId" onchange={handleChange}></lightning-input-field>
+              <div class="slds-form-element__help slds-p-bottom_xx-small slds-text-color_error">{contractError}</div>
+            </lightning-layout-item>
+  
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6">
+              <lightning-input-field field-name="CustomerAuthorizedById" onchange={handleChange}></lightning-input-field>
+              <lightning-input-field field-name="Status" onchange={handleChange}></lightning-input-field>
+              <lightning-input-field field-name="Pricebook2Id" onchange={handleChange}></lightning-input-field>
+            </lightning-layout-item>
+  
+          </lightning-layout>
+  
+          <br />
+  
+          <div class="slds-clearfix">
+            <lightning-button label="Next" name="Next" variant="brand" onclick={handleNextClick}
+              class="slds-align_absolute-center"></lightning-button>
+          </div>
+        </lightning-record-edit-form>
+      </lightning-card>
+  
+      <!-- PRODUCT DETAILS PAGE LAYOUT AND GO TO NEXT AND PREVIOUS PAGE BY BUTTON CLICK -->
+  
+      <lightning-card if:true={showProductCard}>
+  
+        <div class="title">Add Product</div>
+  
+        <lightning-datatable key-field="product.Id" data={products} columns={columns}></lightning-datatable>
+        <br>
+  
+        <div class="slds-clearfix">
+          <lightning-button label="Back" variant="brand" onclick={handlePreviousClick}
+            class="slds-float_left"></lightning-button>
+  
+          <lightning-button label="Next" variant="brand" onclick={handleAddProducts}
+            class="slds-float_right"></lightning-button>
+        </div>
+  
+      </lightning-card>
+  
+      <!-- SELECTED PRODUCT AND ADD QUANTITY AND GO TO PREVIOUS PAGE BY BUTTON CLICK-->
+  
+      <lightning-card if:true={showSelectedProduct}>
+  
+        <div class="title">Edit Selected Order Products</div>
+  
+        <lightning-datatable key-field="Id" data={selectedProducts} columns={selectedColumns} hide-checkbox-column
+          onsave={handlePreviewProducts} editable oncancel={handleBackClick}
+          draft-values={draftValues}></lightning-datatable>
+  
+      </lightning-card>
+  
+  
+      <lightning-card if:true={showPreviewCard}>
+  
+        <div class="title">Entered Order Details</div>
+  
+        <div class="slds-card slds-p-around_medium">
+          <lightning-layout>
+  
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6">
+              <div class="slds-var-m-bottom_medium">
+                <lightning-input label="Account Name" value={order.AccountId} disabled></lightning-input>
+              </div>
+              <div class="slds-var-m-bottom_medium">
+                <lightning-input label="Contract Number" value={order.ContractId} disabled></lightning-input>
+              </div>
+              <div class="slds-var-m-bottom_medium">
+                <lightning-input label="Customer Authorized By" value={order.CustomerAuthorizedById}
+                  disabled></lightning-input>
+              </div>
+            </lightning-layout-item>
+  
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6">
+              <div class="slds-var-m-bottom_medium">
+                <lightning-input label="Order Start Date" type="date" value={order.EffectiveDate}
+                  disabled></lightning-input>
+              </div>
+              <div class="slds-var-m-bottom_medium">
+                <lightning-input label="Order Status" value={order.Status} disabled></lightning-input>
+              </div>
+              <div class="slds-var-m-bottom_medium">
+                <lightning-input label="Pricebook2Id" value={order.Pricebook2Id} disabled></lightning-input>
+              </div>
+            </lightning-layout-item>
+            
+          </lightning-layout>
+        </div>
+  
+        <div class="title">Selected Product Details</div>
+  
+        <lightning-datatable key-field="Id" data={finalSelectedProducts} columns={finalSelectedColumns}
+          hide-checkbox-column></lightning-datatable>
+        <br>
+        <div>Grand Total: {totalPriceSum}</div>
+  
+        <lightning-card>
+          <lightning-button label="Add To Cart" variant="brand" onclick={handleAddToCart}></lightning-button>
+        </lightning-card>
+  
+      </lightning-card>
+  
+    </div>
+  
+  </template>
