@@ -48,7 +48,7 @@ const finalSelectedColumns = [
 
 export default class E_Commerce extends LightningElement {
 
-// Define the component's state variables
+  // Define the component's state variables
   @track order = {
     Status: 'Draft'
   };
@@ -60,7 +60,7 @@ export default class E_Commerce extends LightningElement {
   @track showPreviewCard = false;
   @track showEnteredOrderDetailsCard = false;
 
-// datatable's data and column
+  // datatable's data and column
   columns = columns;
   products;
 
@@ -71,7 +71,7 @@ export default class E_Commerce extends LightningElement {
   @track finalSelectedProducts = [];
   finalSelectedColumns = finalSelectedColumns;
 
-//other variables
+  //other variables
   accNameOptions = [];
   contractNumberOptions = [];
   contactNameOptions = [];
@@ -285,8 +285,7 @@ export default class E_Commerce extends LightningElement {
               'Order products created successfully',
               'success'
             );
-            this.showPreviewCard = false;
-            this.showOrderCard = true;
+            this.handleCancle();
           })
           .catch((error) => {
             this.showToast(
@@ -311,16 +310,16 @@ export default class E_Commerce extends LightningElement {
   handleCancle() {
     this.showPreviewCard = false;
     this.showOrderCard = true;
-    
+
     // Reset order object and other relevant variables
     this.order = {
-        Status: 'Draft'
+      Status: 'Draft'
     };
     this.selectedProducts = [];
     this.finalSelectedProducts = [];
     this.draftValues = [];
     this.totalPriceSum = 0;
-}
+  }
 
   //....................SHOW TOAST....................
   showToast(title, message, variant) {
